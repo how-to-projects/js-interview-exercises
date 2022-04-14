@@ -36,8 +36,8 @@ function Person(name) {
  * Call the constructor of the class using 'new'
  */
  let shannon = new Person('Shannon');
-    shannon.setHealth(100);
-    shannon.walking();
+     shannon.setHealth(100);
+     shannon.walking();
 
     console.log('HEALTH ' , shannon.getHealth());
 
@@ -46,7 +46,7 @@ function Person(name) {
  */
 Person.prototype.sleepType = 'deep';
 Person.prototype.sleep = () => {
-    console.log(shannon.name + ' is sleeping ' + shannon.sleepType);
+    console.log(this.name + ' is sleeping ' + this.sleepType);
 }
 
 /**
@@ -54,3 +54,33 @@ Person.prototype.sleep = () => {
  * to the dynamically added method 'sleep'
  */
 shannon.sleep();
+
+/**
+ * New Admin class, extends Person
+ * 
+ * Pass in parameters as an array
+ */
+function Admin(...args) {
+    /**
+     * A function with a given 'this' value and arguments in an array
+     */
+    Person.apply(this, [args][0]);
+
+    /**
+     * Add role property to the admin class
+     */
+    this.role = 'super admin';
+}
+
+/** 
+ * Create a new object and base it on the prototype of the Person class
+ * 
+ * Inherite functionality of Person class
+*/
+Admin.prototype = Object.create(Person.prototype);
+
+let admin = new Admin('xchanin');
+admin.walking();
+admin.sleep();
+// console.log('Admin ', admin);
+
