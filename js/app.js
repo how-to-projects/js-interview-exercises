@@ -1,5 +1,8 @@
 /**
- * Closures
+ * Closures - a function that references variables in 
+ *            the outer scope from its inner scope. The
+ *            closure preserves the outer scope inside
+ *            the inner scope.
  */
 
 /**
