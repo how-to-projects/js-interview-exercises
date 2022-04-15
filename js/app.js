@@ -1,12 +1,9 @@
-/**
- * Slice
- * Splice
- * Filter
- * Map
- * Reduce
- */
+(() => {
+
+})();
 
 const integers = [1,2,3,4,5,6,7,8,9,10];
+const alphas = ['b','a','f','t','u'];
 
 const pilots = [
     {
@@ -115,14 +112,14 @@ const pilots2 = [
      * First argument is the index where to place the item
      * Seconod argument is zero, tells splice() to not delete anything
      */            
-    let add = integers;
+    let add = Object.assign([], integers);;
     add.splice(3 , 0, 'a', 'b', 'c');
     console.log('Add Items', add);
 
     /**
      * Replace an item in an array
      */
-    let replace = integers;
+    let replace = Object.assign([], integers);
     replace.splice(7,1, 'Replaced, sucka');
     console.log('Replace Item', replace);
 
@@ -199,8 +196,53 @@ const pilots2 = [
 
    console.log(pilotWithMostYears);
 
+/**
+* Sort - sort an array (mutates)
+* default sorting works well for alphabetical, but not
+* great for numbers
+*/
+   /**
+    * Sort an array of alpha characters
+    */ 
+   const sortAlphaArray = Object.assign([], alphas);
+   sortAlphaArray.sort(); // sorts in ascending order
 
-    
+   /**
+    * Reverse sortArray
+    */
+    sortAlphaArray.reverse(); // sort in descending order
+
+   console.log('SORT ALPHA ARRAY ', sortAlphaArray);
+
+   /**
+    * sort array of numbers - need a comparison function
+    */
+   const sortIntArray = Object.assign([], integers);
+   /**
+    * sort in ascending order
+    */
+   sortIntArray.sort((a,b) => {
+       return a - b;
+   });
+
+   /**
+    * sort in descending order
+    */
+   sortIntArray.sort((a,b) => {
+       return b - a;
+   });
+
+   console.log('SORT INT ARRAY ', sortIntArray);
+
+/**
+* Combine arrays
+*/
+   const combineArraySpread = [...integers, ...alphas];
+   console.log('Combine Object Assign ', combineArraySpread);
+
+   const combineArrayConcat = integers.concat(alphas);
+   console.log('Combine Array Concat ', combineArrayConcat);
+
 
 
 
