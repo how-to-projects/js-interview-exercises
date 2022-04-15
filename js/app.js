@@ -6,6 +6,9 @@
  * out 'FizzBuzz' for multiples of three and five.
  */
 
+/**
+ * Simplier approach to solving this
+ */
 const simpleApproach = () => {
 
     /**
@@ -44,6 +47,9 @@ const simpleApproach = () => {
 
 // simpleApproach();
 
+/**
+ * A different approach to solve this
+ */
 const fancyApproach = () => {
     for (let i = 0; i < 101;) {
         console.log(
