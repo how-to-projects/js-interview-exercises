@@ -1,62 +1,48 @@
 /**
- * Fizzbuzz is a common interview task where the programmer
- * is asked to print number from 1 to 100 - when the number
- * is a multiple of three, print out 'Fuzz' and similarly
- * print out 'Buzz' for multiples of five. Lastly, print
- * out 'FizzBuzz' for multiples of three and five.
+ * Palindrome - a word, phrase, or sequence that reads
+ * the same forward or backward. e.g., madam, mom, nurses run
  */
 
 /**
- * Simplier approach to solving this
+ * Test if the value given is a palindrome - probably many ways to do this,
+ * but I think this is one of the simpliest - could use RegEx or somethihg like that
+ * 
+ * This method could be simplified, but expanding it for clarity 
+ * 
+ * @param val - value to test for palindrome 
+ * @returns boolean if the given value is the same forward and back
  */
-const simpleApproach = () => {
+const isPalindrome = (val) => {
 
     /**
-     * Loop to increment to 100
+     * Remove any whitespace
      */
-    for (let i = 0; i < 101; i++) {
+    const removeWhiteSpace = val.replace(' ', '');
+    
+    /**
+     * create an array from string charactes
+     */
+    const splitStringToArray = removeWhiteSpace.split('');
 
-        /**
-         * '%' - modulus operator returns the remainder of 
-         * an integer division
-         */
+    /**
+     * Reverse the array
+     */
+    const reverseArray = splitStringToArray.reverse();
 
-            /**
-             * Check if a number is divisible by 15,
-             * if it is, print out 'fizzbuzz' 
-             */
-            if(i % 15 == 0) {
-                console.log(i, 'fizzbuzz');
-            }
+    /**
+     * Create a string from the reverse array
+     */
+    const reversedString = reverseArray.join('');
 
-            /**
-             * Use 15 to see if it's divisible by 3
-             */
-            if(i % 3 == 0) {
-                console.log(i, 'fizz');
-            }
-
-            /**
-             * Use 15 to see if it's divisible by 5
-             */
-            if(i % 5 == 0) {
-                console.log(i, 'buzz');
-            } 
+    /**
+     * Check if the original value, minuse the white space is
+     * equal to the newly created reversed string
+     */
+    if (reversedString === removeWhiteSpace) {
+        return true;
     }
+
+    return false;
 }
 
-// simpleApproach();
-
-/**
- * A different approach to solve this
- */
-const fancyApproach = () => {
-    for (let i = 0; i < 101;) {
-        console.log(
-            (i++ % 3 ? '' : 'fizz') + 
-            (i % 5 ? '' : 'buzz') 
-            || i);
-    }
-}
-
-fancyApproach();
+console.log(isPalindrome('nurses run'));
