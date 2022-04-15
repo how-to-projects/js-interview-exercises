@@ -1,83 +1,56 @@
 /**
- * Closures - a function that references variables in 
- *            the outer scope from its inner scope. The
- *            closure preserves the outer scope inside
- *            the inner scope.
+ * Fizzbuzz is a common interview task where the programmer
+ * is asked to print number from 1 to 100 - when the number
+ * is a multiple of three, print out 'Fuzz' and similarly
+ * print out 'Buzz' for multiples of five. Lastly, print
+ * out 'FizzBuzz' for multiples of three and five.
  */
 
-/**
- * Example of closure
- * 
- * - Outer function 'count' is executed, creating an
- *   instance of the inner function, the inner function 
- *   exposes the variable counter, which is in its parent's
- *   scope.
- * 
- * - We call the inner function from outside the scope in 
- *   which it was declared. We did that by returning the 
- *   inner function from the outer onr and storing a 
- *   reference to it, named 'incrementCount,' to call it
- * 
- * - When the incrementCount function finishes running, normally
- *   we would expect all of its variables to be garbage collected.
- *   We'd experct each counter to go away when the function is done,
- *   but they don't, because of a Closure.
- * 
- * - Since the inner function instances are still alive (assigned to incrementCount),
- *   the closure is still preserving the counter variables.
- * 
- * @returns addCount function
- */
-const count = () => {
-
-    let counter = 0;
-
-    return () => {
-        counter += 1;
-        return counter;
-    }
-  
-}
-
-/**
- * Execute count function
- */
-const runCounter = () => {
-
-    const incrementCount = count();
+const simpleApproach = () => {
 
     /**
-     * Quick loop, just so we can test this easier
+     * Loop to increment to 100
      */
-    for(let i = 0; i < 5; i++) {
-        console.log('INCREMENT COUNT ', incrementCount());
+    for (let i = 0; i < 101; i++) {
+
+        /**
+         * '%' - modulus operator returns the remainder of 
+         * an integer division
+         */
+
+            /**
+             * Check if a number is divisible by 15,
+             * if it is, print out 'fizzbuzz' 
+             */
+            if(i % 15 == 0) {
+                console.log(i, 'fizzbuzz');
+            }
+
+            /**
+             * Use 15 to see if it's divisible by 3
+             */
+            if(i % 3 == 0) {
+                console.log(i, 'fizz');
+            }
+
+            /**
+             * Use 15 to see if it's divisible by 5
+             */
+            if(i % 5 == 0) {
+                console.log(i, 'buzz');
+            } 
     }
 }
 
-runCounter();
+// simpleApproach();
 
-const countWithParams = (val) => {
-
-    if (!val) { return };
-
-    let counter = 0;
-
-    return () => {
-        counter += val;
-        return counter;
+const fancyApproach = () => {
+    for (let i = 0; i < 101;) {
+        console.log(
+            (i++ % 3 ? '' : 'fizz') + 
+            (i % 5 ? '' : 'buzz') 
+            || i);
     }
 }
 
-/**
- * Closure example with a parameter
- */
-const executeCountWithParams = () => {
-
-    const add = countWithParams(2);
-    
-    for(let i = 0; i < 5; i++) {
-        console.log('COUNT WITH PARAMS ', add(i));
-    }
-}
-
-executeCountWithParams();
+fancyApproach();
