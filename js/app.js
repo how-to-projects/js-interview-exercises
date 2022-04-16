@@ -244,7 +244,109 @@ const pilots2 = [
    console.log('Combine Array Concat ', combineArrayConcat);
 
 
+/**
+ * Remove duplicate item from array, don't use a loop, map, or filter
+ */
+
+let nums = [1,2,2,3];
+nums.splice(1,1)
+console.log('REMOVE DUPLICATE ', nums);
+
+/**
+ * Set doesn't allow duplicates, but returns a Set, not an array,
+ * so if we use the spread operator, that will convert the set to
+ * an array
+ */
+console.log('REMOVE SET WITH SPREAD ', [...new Set(nums)]);
 
 
+/**
+ * Move an item from one position to another
+ */
 
+const relocateArray = [...integers];
+const relocate = (array, val, newPosition) => {
 
+    /**
+     * Get the index position of the item we want
+     */
+    const index = array.indexOf(val);
+
+    /**
+     * Remove the item we want and add it to a new array
+     * 
+     * ...splice(index, 1) => starting at the given index
+     * position, remove one item from the array, [0] returns
+     * the actuall item
+     */
+    const el = array.splice(index, 1)[0];
+    
+    /**
+     * Add the item back into the original array
+     * ...splice(9, 0, el) => add the element(el) 
+     * to the new index position(newPosition) - '0'
+     * tells splice not to delete anything
+     */
+     array.splice(newPosition , 0, el);
+    console.log('ARRAY OBJECT MOVED', array);
+}
+
+relocate(relocateArray, 2, 8);
+
+/**
+ * Move object one position up
+ */
+const moveUp = (array, idToMove) => {
+
+    let indexOfItemToMove = 0;
+
+    /**
+     * Get the item we want to move
+     */
+    const itemToMove = array.filter((itm, idx, arr) => {
+
+        if (itm.id === idToMove) {
+            indexOfItemToMove = idx;
+            return itm;
+        }
+    });
+
+    /**
+     * Remove item from original array
+     */
+    array.splice(indexOfItemToMove, 1);
+
+    if(indexOfItemToMove > 0) {
+        /**
+         * Move item one position up in the array
+         */
+        array.splice((indexOfItemToMove - 1), 0, itemToMove[0]);
+        
+      /**
+       * If we are on index zero, then move the item
+       * to the end of the array */  
+    } else if (indexOfItemToMove === 0) {
+
+        // array.splice(array.length, 0, itemToMove[0]);
+        /**
+         * Splice or push will work in this instance
+         */
+        array.push(itemToMove[0]);
+    }
+    console.log('ARRAY OBJECT MOVED', array);
+}
+
+moveUp([...pilots2], 2);
+
+/**
+ * Double to values in an array
+ */
+const arrayOfNumbers = [1, 2, 3, 4];
+// arrayOfNumbers.reduce((prev, curr, idx, arr) => {
+//     return arr[idx] = arr[idx] * 2;
+// })
+arrayOfNumbers.map((itm, idx, arr) => {
+    return arr[idx] = arr[idx] * 2;
+})
+
+console.log('DOUBLE ARRAY VALUES', arrayOfNumbers);
