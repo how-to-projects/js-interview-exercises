@@ -268,13 +268,19 @@ console.log(checkNamePrefix('shannon bruns', 'bru'));
 /**
  * Chop string into equal parts
  */
-const chopEqually = (val, maxSize) => {
+const chopEqually = (val, maxSize, redistribute = false) => {
 
     // const regEx = new RegExp(`.{1,6}`, 'g');
     const regExp = new RegExp(`.{1,${maxSize}}`, 'g');
     const arr = val.match(regExp);
     
-    arr.map((itm, idx, arr) => {
+    /**
+     * If we wanted to redistribute remaining items across the array,
+     * so out last array item didn't have less than the max amount,
+     * could do something like this:
+     */
+    if(redistribute) {
+        arr.map((itm, idx, arr) => {
         /**If there's a remainder, we want
          * to distribute the remiander(s) to 
          * the beginning of the array items
@@ -298,9 +304,21 @@ const chopEqually = (val, maxSize) => {
             arr.splice(arr.length - 1, 1);
           
         }
-    })
+        })
+    }
 
    return arr
 }
 
 console.log(chopEqually('sdfaslflsfdlsfslfmfs', 3));
+
+/**
+ * Remove all vowels from string
+ */
+
+const removeVowels = (val) => {
+ 
+    return val.replace(/[a,e,i,o,u]/g, '');
+}
+
+console.log('Remove Vowels', removeVowels('asfdasfdasdfasdf asdfasdfsadfsfsafdsf'));
