@@ -1,324 +1,264 @@
 /**
- * Overloading
+ * Callback function - higher order function (stored like variables and used in arguments)
+ */
+
+const callbackTest = (prop) => {
+    console.log('this is the callback fucntion ' + prop);
+}
+
+const callBackFun = (callback) => {
+    setTimeout(() => {
+        callback('called from another function!');
+    },2000)
+}
+
+callBackFun(callbackTest);
+
+/**
+ * Have a function with no parameters, but 
+ * pass params and print them out
  * 
- * Javascript doesn't allow function
- * overloading, instead you'd have to use a if/else
- * or switch/case statemtn
+ * *** Important - arrow function will not have an arguments object!
  */
 
-const functionOverload = (param) => {
-    if (typeof param === 'string') {
-        // do something
-    }
+function noParams() {
+     console.log(arguments);
+     for (let itm in arguments) {
+         console.log(itm);
+     }
 }
+
+// noParams('one', 'two', 'three');
 
 /**
- * Check if an item is an array
- * Three ways to do this
- */
-const arr = [];
-
-console.log(Array.isArray(arr));
-console.log(arr instanceof Array)
-console.log(Object.prototype.toString.call(arr) === '[object Array]' ? 'Is Array' : 'Not an array')
-
-/**
- * Check if a number is an integer
+ * Write a funciton that only executes if the number of
+ * arguments matches the number of parameters
  */
 
-const isInteger = (num) => {
-    /**
-     * Get the remainder by dividing by 1 (modulo operator)
-     */
-    return num % 1 == 0;
-}
-
-console.log(isInteger(2));
-console.log(isInteger(2.3));
-console.log(isInteger(10));
-
-/**
- * How to make a variable private
- * Hide it inside a function block - why?
- * var is function scoped, so var doesn't
- * leave the function
- * 
- * How to access it then? Create a closure -
- * wrap the var inside a function that is 
- * returned from an outer function, then declare
- * a variable outside of the function, var test 
- * is then kept alive by the closure and can be
- * accessed
- */
-const privateVar = () => {
-
-    // return () => {
-        var test = 'I am private';
-    //    return test;
-    // }
-    
-}
-// const testPrivate = privateVar();
-// console.log(testPrivate());
-
-/**
- * Find the vowels - find all the vowels in a string
- */
-
-const findVowels = (string) => {
-
-    const removeWhiteSpace = string.replace(/\s+/g, ''); // damn regex!
-    console.log(removeWhiteSpace)
-
-    /**
-     * Create an array from the given string
-     */
-   const stringArr = string.split('');
-   const vowels = ['a', 'e', 'i', 'o', 'u'];
-
-   /**
-    * Loop over the string array and check each
-    * item to see if it's a vowel, if so, return it
-    */
-
-   const foundVowels = stringArr.filter((itm, idx, arr) => {
-       return vowels.includes(itm);
-   })
-
-   // return foundVowels; // return all vowels found
-   /**
-    * If we wanted to find unique vowels, use set
-    */
-   return [...new Set(foundVowels)];
-}
-
-console.log(findVowels('there was a brown cow and the cow crapped its pants'));
-
-
-/**
- * Remove property from object
- */
-
-const obj = {
-    one:'1',
-    two:'2',
-    three:'3',
-    four: '4'
-}
-
-delete obj.two;
-console.log(obj);
-
-/**
- * Write out individual characters from a string
- */
-
-const individualChars = (val) => {
-
-    /**Either of these will work */
-    // return val.split('');
-
-    const charArr = [];
-    val.split('').forEach((char) => {
-        charArr.push(char);
-    })
-
-    return charArr;
-}
-
-console.log(individualChars('shannon'));
-
-const reverseString = (val) => {
-    return val.split('').reverse().join('');
-}
-
-console.log(reverseString('shannon'));
-
-const reverserWords = (val) => {
-    const words = val.split(' ');
-    const reverseWords = words.reverse();
-    const reverseWordChars = reverseWords.map((itm, idx, arr) => {
-        return itm.split('').reverse().join('');
-    });
-
-    return reverseWordChars.join(' ');
-}
-
-console.log(reverserWords('shannon is trying really hard right now'));
-
-/**
- * Replace whitespace with underscores
- */
-
-const replaceUnderscore = (val) => {
-
-    /**Either of these will work */
-    return val.replaceAll(' ', '_');
-
-    // return val.split(' ').join('_');
-}
-
-console.log(replaceUnderscore('shannon is trying really hard right now'));
-
-/**
- * Count the number of chars between a given character
- */
-
-const countCharsBetween = (val, searchTerm) => {
-    
-    /**
-     * If no searchTerm, then return the original value
-     */
-    if (!val.includes(searchTerm)) {
-        return val;
+function matchParamCount(one, two) {
+    if (matchParamCount.length === arguments.length) {
+        console.log('arguments and param count match');
+    } else {
+        throw new Error('arguments and param count don\'t match');
     }
 
-    /**
-     * Get first and last index position of the searchTerm
-     */
-    const firstIndex = val.indexOf(searchTerm);
-    const lastIndex = val.lastIndexOf(searchTerm);
-
-    /**
-     * If the first and last index are the same, then there's only one search term
-     * otherwise, return chars between the last and first index
-     */
-    return firstIndex === lastIndex ? -1 : (lastIndex - firstIndex) - 1; 
 }
 
-console.log(countCharsBetween('xerox', 'x'))
-console.log(countCharsBetween('there is a big moon waiting to be first', 't'));
+matchParamCount('one', 'two');
 
 /**
- * Truncate string
+ * Function with variable number of arguments
  */
 
-const truncateString = (val, size) => {
-
-    if (val.length < size) {return val;}
-
-    return val.substr(0, size - 3) + '...';
-}
-
-console.log(truncateString('shannon', 5));
-
-/**
- * Truncate words
- */
- const truncateWords = (val, size) => {
-
-    if (val.length < size) { return val; }
-    const words = val.split(' ');
-    words.splice(size);
-    
-    return words.join(' ') + '...';
-}
-
-console.log(truncateWords('shannon is trying really hard today', 4));
-
-/**
- * Return a list of items that contain at least one number
- */
-
-const containsNum = (nums) => {
-
-    return nums.filter((itm, idx, arr) => {
-        /**
-         * Use .test() to check for a reqular expression pattern
-         */
-        return /[0-9]/.test(itm); 
-
-        /**
-         * You can do the same with any regex pattern
-         * Check for any items with a '.'
-         */
-
-         // return /[.]/.test(itm); 
+const variableNumOfArgs = (...params) => {
+    params.forEach((itm, idx, arr) => {
+        console.log(itm);
     })
 }
 
-console.log(containsNum(['abc', 'abc10', 'ab3bcd', 'cdg.']));
+variableNumOfArgs('one', 'two', 'three', 'four');
 
 /**
- * Check if a search term is at the beggining of a first name or
- * last name
+ * Write a program where hoisting can be seen
  */
 
-const checkNamePrefix = (name, prefix) => {
+const hoisting = () => {
 
-    /**Split name into an array */
-    const arr = name.split(' ');
-
-    /**First index should be the first name */
-    const firstName = arr[0];
-
-    /**Last index should be the last name, respectively */
-    const lastName = arr[arr.length - 1];
-
-    const firstPre = firstName.substr(0, prefix.length);
-    const lastPre = lastName.substr(0, prefix.length);
-
-    if (firstPre === prefix) { return `first name contains \'${prefix}\'`}
-    else if (lastPre === prefix) { return `last name contains \'${prefix}\'`}
-    else { return 'neither name contains the prefix' }
-}
-
-console.log(checkNamePrefix('shannon bruns', 'bru'));
-
-/**
- * Chop string into equal parts
- */
-const chopEqually = (val, maxSize, redistribute = false) => {
-
-    // const regEx = new RegExp(`.{1,6}`, 'g');
-    const regExp = new RegExp(`.{1,${maxSize}}`, 'g');
-    const arr = val.match(regExp);
-    
-    /**
-     * If we wanted to redistribute remaining items across the array,
-     * so out last array item didn't have less than the max amount,
-     * could do something like this:
+    /**hoistParam is hoisted, but the value isn't, so
+     * JS assigns undefined as the default value
      */
-    if(redistribute) {
-        arr.map((itm, idx, arr) => {
-        /**If there's a remainder, we want
-         * to distribute the remiander(s) to 
-         * the beginning of the array items
-         */
-        if (itm.length < maxSize) {
-            const remainderCount = itm.length;
+    hoist(hoistParam);
 
-            /**If remainder is two, then distribute 
-             * to the first two array items
-            */
-            for (let i =0; i < itm.length; i++) {
-
-                /**Create a new string with the two items */
-                const newString = arr[i] + itm[i];
-
-                /**update original array item new string */
-                arr[i] = newString;
-            }
-
-            /**Remove last array item that contained the remainders */
-            arr.splice(arr.length - 1, 1);
-          
-        }
-        })
+    function hoist(param) {
+        console.log(`function is hoisted: ${param}`);
     }
 
-   return arr
+    var hoistParam = 'something like this?';
 }
 
-console.log(chopEqually('sdfaslflsfdlsfslfmfs', 3));
+hoisting();
 
 /**
- * Remove all vowels from string
+ * IIFE - Immediatly invoked funtion expression
+ * Bonus, pass it parameters
+ */
+((paramOne, paramTwo) => {
+    console.log(paramOne + '- ' + paramTwo())
+})('hello', () => { return 'retrun, retrun, retrun'});
+
+/**
+ * Use an IIFE to execute an expression against a variable
+ */
+const randomNumber = function() {
+    console.log(Math.floor(Math.random() * 100));
+}();
+
+
+/**
+ * Default params, when one isn't passed in
  */
 
-const removeVowels = (val) => {
- 
-    return val.replace(/[a,e,i,o,u]/g, '');
+const defaultParams = (d = 'default param') => {
+    console.log(d);
 }
 
-console.log('Remove Vowels', removeVowels('asfdasfdasdfasdf asdfasdfsadfsfsafdsf'));
+defaultParams();
+defaultParams('getting a param');
+defaultParams(undefined);
+
+/**
+ * Show usage of call, apply, bind
+ */
+
+const obj = {name:'shannon', role: 'engineer'};
+
+function testFunction(paramOne, paramTwo) {
+
+    console.log(this.name, paramOne, paramTwo);
+}
+
+/**
+ * Call and apply invoke immediately
+ */
+testFunction.call(obj, 'one', 'two');
+testFunction.apply(obj, ['1','2']);
+/**
+ * bind creates a new function with the context of the 1st argument
+ * Use this when you want to call it later with a new contex
+ */
+testFunction.bind(obj, ['1','2']);
+
+/**
+ * Show a function that can be used as a constructor
+ * 
+ * This also cover protoypal inheritence
+ */
+
+function Employee(id) {
+    this.id = id;
+}
+
+Employee.prototype.getSalary = () => {
+    return this.salary;
+}
+
+Employee.prototype.setSalary = (val) => {
+    this.salary = val;
+}
+
+const empl = new Employee(1);
+empl.setSalary(1000);
+console.log(empl.getSalary(), empl.id);
+
+/**
+ * Show how to create an object using a factory function
+ */
+
+function factoryFunction(username, password, isActive = false, isAdmin = false) {
+    if (typeof username !== 'string' || typeof password !== 'string') {
+        throw new Error('Invlid username or password');
+    }
+
+    return {
+        username,
+        password,
+        isActive,
+        isAdmin,
+        created: new Date()
+    }
+}
+
+console.log(factoryFunction('shannon', 'password'));
+
+/**
+ * Achieve prototypal inheritence
+ * Achieve prototypal inheritence
+ * Achieve prototypal inheritence
+ * Achieve prototypal inheritence
+ */
+
+/**Create a parent class 
+ * 
+ * Can create with a function or
+ * using 'Class'
+*/
+// class Parent {
+//     constructor(name) {}
+// }
+function Parent(name) {
+    this.name = name;
+}
+
+/**add a getName function to the parent class */
+Parent.prototype.getName = function (){ 
+    return this.name; 
+}
+
+/**Create a child class */
+// class Child {
+//     constructor(name) {
+        
+//     }
+// }
+function Child(name) {
+
+    /**Call the parent class and assign the context of 
+     * 'this' as the child class
+     */
+    Parent.call(this, name);
+}
+
+/**
+ * Child class extends the Parent class,
+ * by creating an object from Parent.prototype
+ */
+Child.prototype = Object.create(Parent.prototype);
+
+/**Add getMyName function to child class */
+Child.prototype.getMyName = function () {
+    return this.name;
+}
+
+const chld = new Child('Child Name');
+console.log('GetNyName from Child', chld.getMyName());
+console.log('GetName from Child, inherited from parent', chld.getName());
+
+const prnt = new Parent('Parent Name');
+console.log('Parent name', prnt.getName())
+
+function ChildChild(name) {
+    Parent.call(this, name);
+}
+
+ChildChild.prototype = Object.create(Parent.prototype);
+ChildChild.prototype.getChildChildName = function() {
+    return this.name;
+}
+
+const childChild = new ChildChild('Great Grand Child');
+childChild.getChildChildName();
+console.log('Great Grand Child Name', childChild.name);
+
+/**
+ * Write a function to copy one object to another
+ */
+
+const obj1 = {one: 'one', two:'two', inner: {five: 'five'}};
+const obj2 = {three: 'three', four:'four'};
+
+const copyObj = (obj1, ob2) => {
+
+    /**
+     * Two ways to do thi
+     */
+    // return Object.assign(obj1, obj2);
+
+    for (let key in obj1) {
+        obj2[key] = obj1[key]
+    }
+
+    return obj2
+}
+
+console.log(copyObj(obj1, obj2));
+
