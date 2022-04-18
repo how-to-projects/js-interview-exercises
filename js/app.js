@@ -1,264 +1,164 @@
 /**
- * Callback function - higher order function (stored like variables and used in arguments)
+ * Display all keys in an object
  */
+const obj = {one: 'valone', two: 'valtwo', three:'valthree'};
 
-const callbackTest = (prop) => {
-    console.log('this is the callback fucntion ' + prop);
+for (let key in obj) {
+    console.log(key);
 }
 
-const callBackFun = (callback) => {
-    setTimeout(() => {
-        callback('called from another function!');
-    },2000)
-}
-
-callBackFun(callbackTest);
+console.log(Object.keys(obj))
 
 /**
- * Have a function with no parameters, but 
- * pass params and print them out
- * 
- * *** Important - arrow function will not have an arguments object!
+ * Display all values of an object
  */
-
-function noParams() {
-     console.log(arguments);
-     for (let itm in arguments) {
-         console.log(itm);
+ for (let key in obj) {
+     if (obj.hasOwnProperty(key)){
+        console.log(obj[key]);
      }
 }
-
-// noParams('one', 'two', 'three');
+console.log(Object.values(obj))
 
 /**
- * Write a funciton that only executes if the number of
- * arguments matches the number of parameters
+ * Write a function to check if an object is empty
  */
 
-function matchParamCount(one, two) {
-    if (matchParamCount.length === arguments.length) {
-        console.log('arguments and param count match');
-    } else {
-        throw new Error('arguments and param count don\'t match');
-    }
-
+const isObjEmpty = (obj) => {
+    return Object.keys(obj).length < 1 ? 'Object empty' : 'Object loaded';
 }
 
-matchParamCount('one', 'two');
+console.log(isObjEmpty(obj));
 
 /**
- * Function with variable number of arguments
+ * Create an object that is empty and has no prototype
  */
 
-const variableNumOfArgs = (...params) => {
-    params.forEach((itm, idx, arr) => {
-        console.log(itm);
-    })
-}
-
-variableNumOfArgs('one', 'two', 'three', 'four');
+const noProtoObj = Object.create(null);
 
 /**
- * Write a program where hoisting can be seen
+ * Use Object.entries to create an object from key value pairs
  */
-
-const hoisting = () => {
-
-    /**hoistParam is hoisted, but the value isn't, so
-     * JS assigns undefined as the default value
-     */
-    hoist(hoistParam);
-
-    function hoist(param) {
-        console.log(`function is hoisted: ${param}`);
-    }
-
-    var hoistParam = 'something like this?';
-}
-
-hoisting();
+const objEntryArray = [[0, 'a'],[1, 'b'],[2, 'c']];
+const objEntriesObj = Object.fromEntries(objEntryArray);
 
 /**
- * IIFE - Immediatly invoked funtion expression
- * Bonus, pass it parameters
- */
-((paramOne, paramTwo) => {
-    console.log(paramOne + '- ' + paramTwo())
-})('hello', () => { return 'retrun, retrun, retrun'});
-
-/**
- * Use an IIFE to execute an expression against a variable
- */
-const randomNumber = function() {
-    console.log(Math.floor(Math.random() * 100));
-}();
-
-
-/**
- * Default params, when one isn't passed in
+ * Create an object with getter and setter properties
  */
 
-const defaultParams = (d = 'default param') => {
-    console.log(d);
-}
-
-defaultParams();
-defaultParams('getting a param');
-defaultParams(undefined);
-
-/**
- * Show usage of call, apply, bind
- */
-
-const obj = {name:'shannon', role: 'engineer'};
-
-function testFunction(paramOne, paramTwo) {
-
-    console.log(this.name, paramOne, paramTwo);
-}
-
-/**
- * Call and apply invoke immediately
- */
-testFunction.call(obj, 'one', 'two');
-testFunction.apply(obj, ['1','2']);
-/**
- * bind creates a new function with the context of the 1st argument
- * Use this when you want to call it later with a new contex
- */
-testFunction.bind(obj, ['1','2']);
-
-/**
- * Show a function that can be used as a constructor
- * 
- * This also cover protoypal inheritence
- */
-
-function Employee(id) {
-    this.id = id;
-}
-
-Employee.prototype.getSalary = () => {
-    return this.salary;
-}
-
-Employee.prototype.setSalary = (val) => {
-    this.salary = val;
-}
-
-const empl = new Employee(1);
-empl.setSalary(1000);
-console.log(empl.getSalary(), empl.id);
-
-/**
- * Show how to create an object using a factory function
- */
-
-function factoryFunction(username, password, isActive = false, isAdmin = false) {
-    if (typeof username !== 'string' || typeof password !== 'string') {
-        throw new Error('Invlid username or password');
-    }
-
-    return {
-        username,
-        password,
-        isActive,
-        isAdmin,
-        created: new Date()
+const getSetObj = {
+    _data: 'valOne',
+    getVal: () => {
+        return _data;
+    },
+    setVal: (val) => {
+        _data = value;
     }
 }
 
-console.log(factoryFunction('shannon', 'password'));
-
 /**
- * Achieve prototypal inheritence
- * Achieve prototypal inheritence
- * Achieve prototypal inheritence
- * Achieve prototypal inheritence
+ * Different options to prevent the modifications to an object
  */
 
-/**Create a parent class 
- * 
- * Can create with a function or
- * using 'Class'
-*/
-// class Parent {
-//     constructor(name) {}
-// }
-function Parent(name) {
-    this.name = name;
-}
-
-/**add a getName function to the parent class */
-Parent.prototype.getName = function (){ 
-    return this.name; 
-}
-
-/**Create a child class */
-// class Child {
-//     constructor(name) {
-        
-//     }
-// }
-function Child(name) {
-
-    /**Call the parent class and assign the context of 
-     * 'this' as the child class
-     */
-    Parent.call(this, name);
-}
+Object.seal(obj);
+Object.freeze(obj);
+Object.isFrozen(obj);
 
 /**
- * Child class extends the Parent class,
- * by creating an object from Parent.prototype
+ * Show the creation of a regular expression
+ * In Javascript regular expressions are an object
  */
-Child.prototype = Object.create(Parent.prototype);
 
-/**Add getMyName function to child class */
-Child.prototype.getMyName = function () {
-    return this.name;
-}
-
-const chld = new Child('Child Name');
-console.log('GetNyName from Child', chld.getMyName());
-console.log('GetName from Child, inherited from parent', chld.getName());
-
-const prnt = new Parent('Parent Name');
-console.log('Parent name', prnt.getName())
-
-function ChildChild(name) {
-    Parent.call(this, name);
-}
-
-ChildChild.prototype = Object.create(Parent.prototype);
-ChildChild.prototype.getChildChildName = function() {
-    return this.name;
-}
-
-const childChild = new ChildChild('Great Grand Child');
-childChild.getChildChildName();
-console.log('Great Grand Child Name', childChild.name);
+const regEx = new RegExp('/[0-9]', 'g');
 
 /**
- * Write a function to copy one object to another
+ * Show the usage of static variable & function in a class and accessing it from the code
  */
 
-const obj1 = {one: 'one', two:'two', inner: {five: 'five'}};
-const obj2 = {three: 'three', four:'four'};
+class Browser {
 
-const copyObj = (obj1, ob2) => {
+    static className = 'Browser';
 
-    /**
-     * Two ways to do thi
-     */
-    // return Object.assign(obj1, obj2);
-
-    for (let key in obj1) {
-        obj2[key] = obj1[key]
+    constructor(os, browserName) {
+        this.os = os;
+        this.browserName = browserName;
     }
 
-    return obj2
+    static areTheyTheSameBrowsers = (browser1, browser2) => {
+        return browser1 === browser2;
+    }
 }
 
-console.log(copyObj(obj1, obj2));
+const browser1 = new Browser('Linux', 'Chrome');
+const browser2 = new Browser('Windows', 'Firefox');
 
+console.log(Browser.className);
+console.log(Browser.areTheyTheSameBrowsers(browser1, browser2));
+
+/**
+ * Write a class which uses private variable and private function
+ */
+
+class HasPrivates {
+    #privateVar;
+    publicVar;
+
+    #privateFunc() {
+        console.log('I\'m a private function');
+    }
+
+    publicFunc() {
+        console.log('I\'m a public function');
+    }
+}
+
+const instance = new HasPrivates();
+instance.publicFunc();
+// instance.privateFunc(); // throws an error
+
+/**
+ * Show inheritance with a Class
+ */
+class BaseClass {
+    constructor(name) {
+        this.name = name;
+    }
+
+    setState(obj) {
+        this.state = obj;
+        this.render();
+    }
+
+    addValues(props) {
+        return props.reduce((a, b) => a + b);
+    }
+}
+
+class Component extends BaseClass {
+    constructor(name = '', props) {
+        super(name); // super() is used to call parent class constructor
+        this.state = { ...props };
+    }
+
+    addValues(...props) {
+        const sum = super.addValues(props);
+        this.setState({ sum, props });
+    }
+
+    render() {
+        console.log(`sum of ${this.state.props} is ${this.state.sum}`);
+    }
+}
+
+let component = new Component('UI Component');
+component.addValues(3,5);
+component.addValues(9,-4,3,5);
+
+/**
+ * Show how we can use a for..of loop to iterate on a range with given start and end values in an object
+ */
+//  let range = {
+//     start: 1,
+//     end: 10
+// };
+
+// for (let i of range) console.log(i); 
