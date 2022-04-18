@@ -1,164 +1,145 @@
 /**
- * Display all keys in an object
+ * Create arrays
  */
-const obj = {one: 'valone', two: 'valtwo', three:'valthree'};
 
-for (let key in obj) {
-    console.log(key);
-}
-
-console.log(Object.keys(obj))
+const arrLiteral = [];
+const arrConstructor = new Array();
+const arrPredefinedSlots = new Array(10);
+const arrWithValues = [1,2,3];
+const arrConstWithValues = new Array(1,2,3);
 
 /**
- * Display all values of an object
+ * Iterate over array and output the values
  */
- for (let key in obj) {
-     if (obj.hasOwnProperty(key)){
-        console.log(obj[key]);
-     }
-}
-console.log(Object.values(obj))
+const arr = [1,2,3,4,5];
+arr.forEach((itm, idx, arr) => {
+    // console.log(itm);
+})
 
-/**
- * Write a function to check if an object is empty
- */
-
-const isObjEmpty = (obj) => {
-    return Object.keys(obj).length < 1 ? 'Object empty' : 'Object loaded';
-}
-
-console.log(isObjEmpty(obj));
-
-/**
- * Create an object that is empty and has no prototype
- */
-
-const noProtoObj = Object.create(null);
-
-/**
- * Use Object.entries to create an object from key value pairs
- */
-const objEntryArray = [[0, 'a'],[1, 'b'],[2, 'c']];
-const objEntriesObj = Object.fromEntries(objEntryArray);
-
-/**
- * Create an object with getter and setter properties
- */
-
-const getSetObj = {
-    _data: 'valOne',
-    getVal: () => {
-        return _data;
-    },
-    setVal: (val) => {
-        _data = value;
-    }
+for (let i in arr) {
+    console.log('for..in', arr[i]);
 }
 
 /**
- * Different options to prevent the modifications to an object
+ * Append / prepend items
  */
-
-Object.seal(obj);
-Object.freeze(obj);
-Object.isFrozen(obj);
+const arrAppend = [2,3];
 
 /**
- * Show the creation of a regular expression
- * In Javascript regular expressions are an object
+ * Add to end of array
  */
-
-const regEx = new RegExp('/[0-9]', 'g');
+arrAppend.push('end1', 'end2');
 
 /**
- * Show the usage of static variable & function in a class and accessing it from the code
+ * Add to beginning of array
+ */
+arrAppend.unshift('start1', 'start2');
+
+/**
+ * Remove from start of array
+ */
+console.log('remove from start:', arrAppend.shift());
+
+/**
+ * Remove from end of array
+ */
+console.log('remove from end:', arrAppend.pop());
+
+/**
+ * Use a spread opperator
+ */
+const spreadArr = [5,6,7,8];
+arrAppend.push(...spreadArr)
+console.log(arrAppend);
+
+/**
+ * Using splice to remove or add or update items
+ */
+const spliceArr = [1,2,3];
+
+/**
+ * Remove one item from array
+ */
+// spliceArr.splice(2,1);486748
+
+/**
+ * Remove all items after selected
+ */
+// spliceArr.splice(1);
+
+/**
+ * Add item to second index position
+ * 
+ * Start at index 2, zero means don't delete - add everything after that
+ */
+spliceArr.splice(2, 0, 44, 45)
+
+console.log('splice array', spliceArr);
+
+/**
+ * Different ways to empty an array
  */
 
-class Browser {
+const emptyArr = [1,2,3];
+// emptyArr = [];
+// emptyArr.length = 0;
+// emptyArr.splice(0, emptyArr.length);
+while(emptyArr.length) {
+    emptyArr.pop();
+}
+console.log('emptyArr', emptyArr);
 
-    static className = 'Browser';
+/**
+ * Check if item is an array
+ */
+console.log('Is an array', emptyArr instanceof Array);
+console.log('Is an array', Array.isArray(emptyArr));
 
-    constructor(os, browserName) {
-        this.os = os;
-        this.browserName = browserName;
-    }
+/**
+ * Check for item in array
+ */
 
-    static areTheyTheSameBrowsers = (browser1, browser2) => {
-        return browser1 === browser2;
-    }
+const checkItemInArray = [1,2,3,4,5,6,7,8,9,10];
+console.log('Is Item in array', checkItemInArray.includes(4)); // true
+
+/**
+ * Create a set
+ */
+const setOne = new Set([1,2,3,4])
+const set = new Set();
+set.add(1);
+set.add(true);
+set.add("text");
+set.add(1);
+
+console.log(set);
+
+/**
+ * Iterate over a set
+ */
+for (let i of set) {
+    console.log('set item', i);
 }
 
-const browser1 = new Browser('Linux', 'Chrome');
-const browser2 = new Browser('Windows', 'Firefox');
-
-console.log(Browser.className);
-console.log(Browser.areTheyTheSameBrowsers(browser1, browser2));
+/**
+ * Create a map
+ */
+const map = new Map([[1, 100], [true, false], ['a', 'b']]);
+console.log('map', map);
 
 /**
- * Write a class which uses private variable and private function
+ * Iterate over a map
  */
-
-class HasPrivates {
-    #privateVar;
-    publicVar;
-
-    #privateFunc() {
-        console.log('I\'m a private function');
-    }
-
-    publicFunc() {
-        console.log('I\'m a public function');
-    }
+for (let i of map) {
+    console.log('map item', i[0], i[1]);
 }
-
-const instance = new HasPrivates();
-instance.publicFunc();
-// instance.privateFunc(); // throws an error
 
 /**
- * Show inheritance with a Class
+ * Remove duplicates in an array
+ * 
+ * Use a Set, because a Set doesn't allow duplicates
  */
-class BaseClass {
-    constructor(name) {
-        this.name = name;
-    }
+const dupArr = [1,2,3,4,5,6,6];
+const uniqueArr = [...new Set(dupArr)];
+console.log(uniqueArr);
 
-    setState(obj) {
-        this.state = obj;
-        this.render();
-    }
-
-    addValues(props) {
-        return props.reduce((a, b) => a + b);
-    }
-}
-
-class Component extends BaseClass {
-    constructor(name = '', props) {
-        super(name); // super() is used to call parent class constructor
-        this.state = { ...props };
-    }
-
-    addValues(...props) {
-        const sum = super.addValues(props);
-        this.setState({ sum, props });
-    }
-
-    render() {
-        console.log(`sum of ${this.state.props} is ${this.state.sum}`);
-    }
-}
-
-let component = new Component('UI Component');
-component.addValues(3,5);
-component.addValues(9,-4,3,5);
-
-/**
- * Show how we can use a for..of loop to iterate on a range with given start and end values in an object
- */
-//  let range = {
-//     start: 1,
-//     end: 10
-// };
-
-// for (let i of range) console.log(i); 
