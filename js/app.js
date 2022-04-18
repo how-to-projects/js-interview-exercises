@@ -162,3 +162,45 @@ component.addValues(9,-4,3,5);
 // };
 
 // for (let i of range) console.log(i); 
+
+/**
+ * Async / await
+ * 
+ * Async always returns a promise
+ * await - makes javascript wait until the promise returns a result (calling json data)
+ */
+async function f(){
+    return 1;
+}
+// f().then(alert);
+
+async function ff() {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('done');
+        }, 1000)
+    })
+
+    let result = await promise;
+
+    alert(result);
+}
+
+ff();
+
+function resolveAfter2Seconds() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, 2000);
+    });
+  }
+  
+  async function asyncCall() {
+    console.log('calling');
+    const result = await resolveAfter2Seconds();
+    console.log(result);
+    // expected output: "resolved"
+  }
+  
+  asyncCall();
