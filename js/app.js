@@ -29,16 +29,17 @@ const simpleApproach = () => {
             /**
              * Use 15 to see if it's divisible by 3
              */
-            if(i % 3 == 0) {
+            else if(i % 3 == 0) {
                 console.log(i, 'fizz');
             }
 
             /**
              * Use 15 to see if it's divisible by 5
              */
-            if(i % 5 == 0) {
+            else if(i % 5 == 0) {
                 console.log(i, 'buzz');
-            } 
+            } else {
+                console.log(i);
     }
 }
 
