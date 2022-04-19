@@ -66,3 +66,22 @@ Person.prototype.isSleeping = function() {
 }
 
 shannon.isSleeping();
+
+
+const closureTest = () => {
+    let count = 0;
+
+    return () => {
+        return count += 1;
+    }
+}
+
+const runCounter = () => {
+    const incrementCount = closureTest();
+
+    for (let i = 0; i < 10; i++) {
+        console.log('increment', incrementCount())
+    }
+}
+
+runCounter();

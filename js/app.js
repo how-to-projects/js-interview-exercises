@@ -186,7 +186,7 @@ async function ff() {
     alert(result);
 }
 
-ff();
+// ff();
 
 function resolveAfter2Seconds() {
     return new Promise(resolve => {
@@ -204,3 +204,6 @@ function resolveAfter2Seconds() {
   }
   
   asyncCall();
+
+
+  
